@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        base.OnModelCreating(builder);
         builder.Entity<Product>()
             .Property(p => p.Name)
             .IsRequired();
@@ -26,4 +27,5 @@ public class ApplicationDbContext : DbContext
         configuration.Properties<string>()
             .HaveMaxLength(100);
     }
+
 }

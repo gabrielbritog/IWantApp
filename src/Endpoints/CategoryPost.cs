@@ -1,4 +1,5 @@
-﻿using IWantApp.Infra.Data;
+﻿using IWantApp.Domain.Products;
+using IWantApp.Infra.Data;
 
 namespace IWantApp.Endpoints;
 
@@ -10,6 +11,12 @@ public class CategoryPost
 
     public IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        return Results.Ok("Ok");
+        var category = new Category
+        {
+            Name = categoryRequest.Name
+        };
+        context.Categories.Add(category);
+        context.SaveChanges();
+        return Results.Created($"/categories/{category.Id}", category.Id);//retornando a url e exibe o Id do que foi salvo
     }
 }
