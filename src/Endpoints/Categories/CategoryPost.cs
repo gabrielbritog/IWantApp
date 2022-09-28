@@ -11,7 +11,12 @@ public static class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        var category = new Category
+        /*if (string.IsNullOrEmpty(categoryRequest.Name))        Essa validação não é boa quando se precisa validar muitas propriedades, validação feita no Entity usando FLunt
+        {
+            return Results.BadRequest("Name is required");
+        }*/
+
+        var category = new Category(categoryRequest.Name)
         {
             Name = categoryRequest.Name,
             CreatedBy = "Test",
@@ -20,6 +25,12 @@ public static class CategoryPost
             EditeddOn = DateTime.Now,
 
         };
+
+        if (!category.IsValid)
+        {
+            return Results.BadRequest(category.Notifications);
+        }
+
         context.Categories.Add(category);
         context.SaveChanges();
 
