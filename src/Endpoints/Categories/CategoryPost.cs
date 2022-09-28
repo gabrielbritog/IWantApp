@@ -16,15 +16,7 @@ public static class CategoryPost
             return Results.BadRequest("Name is required");
         }*/
 
-        var category = new Category(categoryRequest.Name)
-        {
-            Name = categoryRequest.Name,
-            CreatedBy = "Test",
-            CreatedOn = DateTime.Now,
-            EditedBy = "Test",
-            EditeddOn = DateTime.Now,
-
-        };
+        var category = new Category(categoryRequest.Name, "Test", "Test");
 
         if (!category.IsValid)
         {

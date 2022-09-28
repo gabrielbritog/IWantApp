@@ -6,13 +6,20 @@ namespace IWantApp.Endpoints.Categories;
 
 public static class CategoryPut
 {
-    public static string Template => "/categories/{id}"; //Rota
+    public static string Template => "/categories/{id:guid}"; //Rota
     public static string[] Methods => new string[] { HttpMethod.Put.ToString() }; //Método de acesso(Acessar pelo método POST)
     public static Delegate Handle => Action; //Chamar a ação
 
     public static IResult Action([FromRoute] Guid id, CategoryRequest categoryRequest, ApplicationDbContext context)
     {
+        
+
         var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();
+        if(category == null)
+        {
+            return Results.NotFound();
+        }
+
         category.Name = categoryRequest.Name;
         category.Active = categoryRequest.Active;
         context.SaveChanges();
