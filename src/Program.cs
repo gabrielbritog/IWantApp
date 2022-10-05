@@ -1,10 +1,13 @@
 using IWantApp.Infra.Data;
 using IWantApp.Endpoints.Categories;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["ConnectionString:IWantDb"]);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//                           Usuarios     Permissionamento                  Usar identity com o contexto do banco de dados
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
 
